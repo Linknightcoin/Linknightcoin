@@ -1,0 +1,14 @@
+{
+  "name": "linkcoin-frontend",
+  "version": "1.0.0",
+  "description": "灵可币前端 - 后AI时代德行分配制度",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "ethers": "^6.16.0",
+    "express": "^4.22.1"
+  },
+  "type": "commonjs"
+}
