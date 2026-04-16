@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵可币 Linknightcoin - 后AI时代德行分配制度</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#0a0a1a 0%,#0d1b3e 50%,#0a1628 100%);min-height:100vh;color:#e0e6f0;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;outline:none;font-family:inherit}
+input,textarea,select{font-family:inherit;outline:none}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0a1a}
+::-webkit-scrollbar-thumb{background:#e94560;border-radius:3px}
+:root{--primary:#e94560;--primary-light:#ff6b8a;--accent:#f39c12;--bg-dark:#0a0a1a;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.08);--border:rgba(255,255,255,0.08);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.35);--success:#27ae60;--warning:#f39c12;--danger:#e74c3c;--radius:16px;--radius-sm:10px;--shadow:0 8px 32px rgba(0,0,0,0.4);--t:all .3s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes gShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.page{display:none;padding-top:64px;min-height:100vh}
+.page.active{display:block}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,26,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px}
+.navbar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:22px;font-weight:800;background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;flex-shrink:0}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:var(--text-secondary);transition:var(--t);cursor:pointer;position:relative}
+.nav-link:hover,.nav-link.active{color:var(--text-primary);background:var(--bg-card)}
+.nav-link.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:16px;height:2px;background:var(--primary);border-radius:1px}
+.wallet-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:white;padding:8px 18px;border-radius:25px;font-size:14px;font-weight:600;transition:var(--t)}
+.wallet-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(233,69,96,.4)}
+.wallet-btn.connected{background:linear-gradient(135deg,#27ae60,#2ecc71)}
+.wallet-btn .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
+.wallet-btn.connected .dot{background:#2ecc71;animation:pulse 2s infinite}
+.wallet-addr{font-family:'Courier New',monospace;font-size:12px;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.hero{text-align:center;padding:80px 20px 50px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.12);border:1px solid rgba(233,69,96,.3);padding:6px 16px;border-radius:20px;font-size:13px;color:var(--primary-light);margin-bottom:24px;animation:fadeInUp .6s ease}
+.hero-badge .blink{animation:blink 1.5s infinite}
+.hero h1{font-size:clamp(36px,6vw,60px);font-weight:900;line-height:1.15;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,var(--primary-light) 40%,var(--accent) 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gShift 4s ease infinite}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--text-secondary);max-width:640px;margin:0 auto 16px;line-height:1.7}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:white;padding:14px 36px;border-radius:30px;font-size:16px;font-weight:700;transition:var(--t);display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(233,69,96,.4)}
+.btn-secondary{background:var(--bg-card);color:white;padding:14px 36px;border-radius:30px;font-size:16px;font-weight:600;border:1px solid var(--border);transition:var(--t);display:inline-flex;align-items:center;gap:8px}
+.btn-secondary:hover{background:var(--bg-card-hover);transform:translateY(-1px)}
+.section{padding:60px 0}
+.section-title{text-align:center;margin-bottom:40px}
+.section-title h2{font-size:clamp(24px,4vw,32px);font-weight:800;margin-bottom:10px;background:linear-gradient(90deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-title p{color:var(--text-secondary);font-size:15px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.feature-card{background:var(--bg-card);border:1px solid var(--border);padding:24px;border-radius:var(--radius);transition:var(--t);position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));opacity:0;transition:var(--t)}
+.feature-card:hover{transform:translateY(-3px);background:var(--bg-card-hover);border-color:rgba(233,69,96,.2)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.2)}
+.feature-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.feature-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+.steps-wrap{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;margin:30px 0}
+.step-item{flex:1;min-width:160px;max-width:200px;text-align:center;padding:0 12px}
+.step-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));color:white;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.step-item h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.step-item p{font-size:12px;color:var(--text-muted);line-height:1.5}
+.step-arrow{font-size:18px;color:var(--text-muted);margin-top:22px;flex-shrink:0}
+.lottery-banner{background:linear-gradient(135deg,rgba(233,69,96,.08),rgba(243,156,18,.06));border:1px solid rgba(233,69,96,.15);border-radius:var(--radius);padding:28px;margin:0 0 30px;text-align:center;position:relative;overflow:hidden}
+.lottery-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(233,69,96,.06),transparent 60%),radial-gradient(circle at 80% 50%,rgba(243,156,18,.06),transparent 60%)}
+.lottery-banner h3{font-size:20px;font-weight:800;margin-bottom:6px;background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lottery-banner>p{font-size:13px;color:var(--text-secondary);margin-bottom:16px}
+.lott-prog-wrap{max-width:480px;margin:0 auto 10px;background:rgba(255,255,255,.05);border-radius:8px;height:10px;overflow:hidden;border:1px solid var(--border)}
+.lott-prog-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 1.5s ease;position:relative;overflow:hidden}
+.lott-prog-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 2s infinite;background-size:200% 100%}
+.lott-meta{display:flex;justify-content:center;gap:28px;font-size:13px;color:var(--text-secondary);flex-wrap:wrap}
+.lott-meta strong{color:var(--primary-light)}
+.stats-header{text-align:center;padding:40px 20px 10px}
+.stats-header h1{font-size:clamp(28px,5vw,38px);font-weight:900;margin-bottom:10px;background:linear-gradient(90deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stats-header p{color:var(--text-secondary);font-size:15px}
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#2ecc71;margin-top:8px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#2ecc71;animation:pulse 2s infinite}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:24px 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);padding:20px;border-radius:var(--radius);transition:var(--t)}
+.stat-card:hover{transform:translateY(-2px);border-color:rgba(233,69,96,.2)}
+.stat-card.top{background:linear-gradient(135deg,rgba(233,69,96,.07),rgba(243,156,18,.04));border-color:rgba(233,69,96,.15)}
+.stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.stat-value{font-size:clamp(24px,4vw,28px);font-weight:900;background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:countUp .6s ease;line-height:1.2}
+.stat-value.sm{font-size:22px}
+.stat-unit{font-size:13px;color:var(--text-muted);font-weight:400}
+.stat-bar{background:rgba(255,255,255,.05);border-radius:5px;height:5px;overflow:hidden;margin-top:10px}
+.stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:5px;transition:width 1.5s ease}
+.stat-sub{font-size:11px;color:var(--text-muted);margin-top:6px}
+.stat-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:6px;margin-top:8px}
+.stat-tag.up{color:#2ecc71;background:rgba(46,204,113,.1)}
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:24px 0}
+.eco-card{background:var(--bg-card);border:1px solid var(--border);padding:18px;border-radius:var(--radius);text-align:center}
+.eco-value{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.eco-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
+.submit-wrap{max-width:680px;margin:40px auto;padding:0 20px}
+.submit-head{text-align:center;margin-bottom:32px}
+.submit-head h1{font-size:clamp(26px,4vw,34px);font-weight:900;margin-bottom:10px;background:linear-gradient(90deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.submit-head p{color:var(--text-secondary);font-size:15px}
+.step-ind{display:flex;justify-content:center;align-items:center;margin-bottom:32px}
+.si-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.si-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text-muted);background:var(--bg-card);transition:var(--t)}
+.si-dot.active{border-color:var(--primary);color:var(--primary);background:rgba(233,69,96,.1)}
+.si-dot.done{border-color:#2ecc71;background:rgba(46,204,113,.1);color:#2ecc71}
+.si-label{font-size:10px;color:var(--text-muted);text-align:center}
+.si-line{width:50px;height:2px;background:var(--border);margin:0 4px 18px;transition:var(--t)}
+.si-line.active{background:linear-gradient(90deg,var(--primary),var(--accent))}
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;animation:fadeInUp .4s ease}
+.form-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.form-hint{font-size:12px;color:var(--text-muted);margin-bottom:20px}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:7px}
+.form-input{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--radius-sm);color:white;font-size:14px;transition:var(--t)}
+.form-input:focus{border-color:var(--primary);background:rgba(233,69,96,.04);box-shadow:0 0 0 3px rgba(233,69,96,.08)}
+.form-input::placeholder{color:var(--text-muted)}
+textarea.form-input{resize:vertical;min-height:110px}
+.char-count{text-align:right;font-size:11px;color:var(--text-muted);margin-top:3px}
+.char-count.warn{color:var(--warning)}
+.btn-full{width:100%;padding:13px;background:linear-gradient(135deg,var(--primary),var(--accent));color:white;border-radius:var(--radius-sm);font-size:15px;font-weight:700;transition:var(--t);margin-top:8px}
+.btn-full:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(233,69,96,.3)}
+.btn-full:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-full.ghost{background:transparent;border:1px solid var(--border);color:var(--text-secondary)}
+.btn-full.ghost:hover{background:var(--bg-card-hover)}
+.ai-box{background:rgba(233,69,96,.05);border:1px solid rgba(233,69,96,.15);border-radius:var(--radius-sm);padding:18px;margin-bottom:18px;animation:fadeInUp .4s ease}
+.ai-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ai-badge{background:linear-gradient(135deg,var(--primary),var(--accent));color:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700}
+.ai-dim{font-size:11px;color:var(--text-muted)}
+.ai-q{font-size:15px;line-height:1.6;color:var(--text-primary);margin-bottom:10px}
+.ai-reason{font-size:11px;color:var(--text-muted);background:rgba(255,255,255,.03);padding:7px 10px;border-radius:6px;margin-bottom:14px}
+.result-box{text-align:center;padding:10px 0;animation:fadeInUp .5s ease}
+.result-score{font-size:clamp(48px,8vw,64px);font-weight:900;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:countUp .8s ease}
+.result-unit{font-size:18px;color:var(--text-secondary)}
+.result-break{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.break-item{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:10px;border-radius:10px;text-align:center}
+.break-lbl{font-size:11px;color:var(--text-muted);margin-bottom:3px}
+.break-val{font-size:18px;font-weight:700;color:var(--primary-light)}
+.result-text{font-size:13px;color:var(--text-secondary);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:14px;border-radius:10px;text-align:left;line-height:1.7;margin-bottom:18px}
+.result-text.fail{border-color:rgba(231,76,60,.2);background:rgba(231,76,60,.05)}
+.result-actions{display:flex;gap:10px}
+.result-actions .btn-full{flex:1}
+.winner-box{background:linear-gradient(135deg,rgba(243,156,18,.1),rgba(233,69,96,.08));border:1px solid rgba(243,156,18,.25);border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px;animation:fadeInUp .5s ease}
+.winner-box h4{font-size:16px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.winner-addr{font-family:'Courier New',monospace;font-size:16px;color:var(--text-primary);margin-bottom:6px;word-break:break-all}
+.winner-amount{font-size:28px;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.wp-wrap{max-width:800px;margin:40px auto;padding:0 20px}
+.wp-toc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:30px}
+.wp-toc h2{font-size:18px;margin-bottom:14px}
+.wp-toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wp-toc-list li a{font-size:13px;color:var(--text-secondary);transition:var(--t);display:flex;align-items:center;gap:6px}
+.wp-toc-list li a:hover{color:var(--primary)}
+.wp-toc-list li a::before{content:'§';color:var(--primary);font-weight:700}
+.wp-content h2{font-size:clamp(20px,3vw,26px);font-weight:800;margin:36px 0 14px;color:var(--text-primary)}
+.wp-content h3{font-size:18px;font-weight:700;margin:24px 0 10px;color:var(--primary-light)}
+.wp-content p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin-bottom:14px}
+.wp-content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.wp-content th{background:rgba(233,69,96,.1);padding:10px 12px;text-align:left;border:1px solid var(--border);color:var(--text-primary)}
+.wp-content td{padding:9px 12px;border:1px solid var(--border);color:var(--text-secondary)}
+.wp-content blockquote{border-left:3px solid var(--primary);padding:12px 16px;background:rgba(233,69,96,.06);border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:var(--text-secondary);line-height:1.7}
+.about-wrap{max-width:800px;margin:40px auto;padding:0 20px}
+.about-head{text-align:center;margin-bottom:40px}
+.about-head h1{font-size:clamp(28px,5vw,36px);font-weight:900;margin-bottom:10px;background:linear-gradient(90deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.about-head p{color:var(--text-secondary);font-size:16px}
+.about-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.about-card h3{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.about-card p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.team-item{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:18px;border-radius:var(--radius-sm);text-align:center}
+.team-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;color:white;font-weight:800}
+.team-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.team-role{font-size:12px;color:var(--text-muted)}
+.contact-links{display:flex;flex-direction:column;gap:10px}
+.contact-link{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)}
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .25s ease}
+.modal-overlay.hidden{display:none}
+.modal{background:#0d1b3e;border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:380px;width:100%;animation:fadeInUp .3s ease}
+.modal h3{font-size:18px;margin-bottom:6px}
+.modal>p{font-size:13px;color:var(--text-secondary);margin-bottom:18px}
+.modal-close{float:right;font-size:20px;color:var(--text-muted);cursor:pointer;line-height:1;background:none;border:none}
+.modal-close:hover{color:var(--text-primary)}
+.wopt{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:8px;transition:var(--t);cursor:pointer;background:rgba(255,255,255,.02)}
+.wopt:hover{border-color:var(--primary);background:rgba(233,69,96,.05)}
+.wopt-icon{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.wopt-name{font-size:14px;font-weight:600}
+.wopt-desc{font-size:11px;color:var(--text-muted)}
+.toast{position:fixed;bottom:24px;right:24px;z-index:3000;animation:slideUp .3s ease}
+.toast.hidden{display:none}
+.toast-item{background:#0d1b3e;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 18px;margin-top:8px;font-size:13px;display:flex;align-items:center;gap:8px;min-width:240px;box-shadow:var(--shadow)}
+.toast-item.success{border-left:3px solid #2ecc71}
+.toast-item.error{border-left:3px solid #e74c3c}
+.toast-item.info{border-left:3px solid var(--primary)}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+.loading-mask{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text-muted);font-size:14px;gap:10px;flex-direction:column}
+.tx-hash{font-family:'Courier New',monospace;font-size:11px;color:var(--text-muted);word-break:break-all;background:rgba(255,255,255,.03);padding:8px;border-radius:6px;margin-top:8px;text-align:left}
+.tx-link{color:var(--primary-light);font-size:12px;margin-top:6px;display:inline-block}
+.disclaimer{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:var(--radius-sm);padding:14px 16px;font-size:12px;color:var(--text-secondary);line-height:1.7;margin-top:20px}
+.footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:60px;color:var(--text-muted);font-size:13px}
+.footer a{color:var(--primary-light)}
+.footer a:hover{text-decoration:underline}
+@media(max-width:640px){
+.nav-links .nav-link span{display:none}
+.hero-actions{flex-direction:column;align-items:center}
+.si-line{width:30px}
+.stats-grid{grid-template-columns:1fr 1fr}
+.wp-toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+<div class="navbar-inner">
+<div class="logo"><img src="logo.png" alt="Linknightcoin" style="height:34px;border-radius:8px;">善行天下</div>
+<div class="nav-links">
+<a class="nav-link active" data-page="home"><span>首页</span></a>
+<a class="nav-link" data-page="submit"><span>提交善举</span></a>
+<a class="nav-link" data-page="stats"><span>数据分析</span></a>
+<a class="nav-link" data-page="whitepaper"><span>白皮书</span></a>
+<a class="nav-link" data-page="about"><span>关于</span></a>
+<a class="nav-link" data-page="donate"><span>赞助支持</span></a>
+</div>
+<button class="wallet-btn" id="walletBtn" onclick="openWalletModal()"><span class="dot"></span><span id="walletText">连接钱包</span></button>
+</div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+<div class="container">
+<div class="hero">
+<div class="hero-badge"><span class="blink">&#9679;</span> 后AI时代 &middot; 德行分配基础设施</div>
+<h1>让每一份善行<br>都成为通向未来的基石</h1>
+<p class="hero-sub">基于人工智能善举验证与区块链技术，构建按德行分配的新型经济体系。在AI替代劳动的时代，德行将成为人类贡献的最高标准。</p>
+<div class="hero-actions">
+<div class="notice" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;padding:12px 20px;border-radius:12px;margin:20px auto;max-width:700px;text-align:center;font-size:14px;font-weight:600">⚠️ 本项目不在中国大陆运营。请遵守当地法律法规。</div>
+<button class="btn-primary" onclick="switchPage('submit')">&#9889; 立即提交善举</button>
+<button class="btn-secondary" onclick="switchPage('stats')">&#128202; 查看实时数据</button>
+</div>
+</div>
+
+<div class="lottery-banner">
+<h3>&#127922; 当前抽奖进度</h3>
+<p>每累计 <strong>10,000 功值</strong> 自动触发一次抽奖，幸运儿获得 <strong>50 LINK</strong></p>
+<div class="lott-prog-wrap"><div class="lott-prog-fill" id="homeLottBar" style="width:0%"></div></div>
+<div class="lott-meta">
+<span>本轮已累积 <strong id="homeLottCurr">--</strong> 功值</span>
+<span>距抽奖还差 <strong id="homeLottRem">--</strong> 功值</span>
+<span>已完成 <strong id="homeLottRounds">--</strong> 轮</span>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><h2>参与机制</h2><p>四步完成德行记录与奖励获取</p></div>
+<div class="steps-wrap">
+<div class="step-item"><div class="step-circle">1</div><h4>连接钱包</h4><p>使用MetaMask连接BSC网络</p><div class="step-arrow">&#8594;</div></div>
+<div class="step-item"><div class="step-circle">2</div><h4>提交善举</h4><p>描述您的具体德行行为</p><div class="step-arrow">&#8594;</div></div>
+<div class="step-item"><div class="step-circle">3</div><h4>AI验证</h4><p>DeepSeek多维度真实性评估</p><div class="step-arrow">&#8594;</div></div>
+<div class="step-item"><div class="step-circle">4</div><h4>获得功值</h4><p>累计10,000功值参与抽奖</p></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><h2>核心机制</h2><p>灵可币的六大创新设计</p></div>
+<div class="features-grid">
+<div class="feature-card"><div class="feature-icon">&#128640;</div><h3>善举证明 PoB</h3><p>将比特币工作量证明(PoW)创新为善举证明(PoB)，用户通过践行德行获得功值奖励，重新定义价值创造方式。</p></div>
+<div class="feature-card"><div class="feature-icon">&#128293;</div><h3>减半机制</h3><p>每210,000功值减半一次，完美致敬比特币210,000区块减半，固定总量2100万枚，实现长期通缩经济模型。</p></div>
+<div class="feature-card"><div class="feature-icon">&#128176;</div><h3>5% 固定手续费</h3><p>每笔交易收取固定5%手续费，100%用于市场回购并补充奖励池。5%×100=500，致敬2100万总量。</p></div>
+<div class="feature-card"><div class="feature-icon">&#128142;</div><h3>自动抽奖</h3><p>每累计10,000功值自动触发一次抽奖，随机选取参与者，按功值权重抽取幸运儿获得50 LINK奖励。</p></div>
+<div class="feature-card"><div class="feature-icon">&#128737;</div><h3>防滥用设计</h3><p>每日最多3次提交，每次间隔至少1小时，AI+社区双重验证，确保系统健康运行和公平分配。</p></div>
+<div class="feature-card"><div class="feature-icon">&#128268;</div><h3>BSC区块链存证</h3><p>所有功值记录永久存储在币安智能链上，公开透明、不可篡改，随时可查，链上公开可验证。</p></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><h2>代币经济学</h2><p>核心参数一览</p></div>
+<div class="eco-grid">
+<div class="eco-card"><div class="eco-value">21,000,000</div><div class="eco-label">LINK 总供应量</div></div>
+<div class="eco-card"><div class="eco-value">50</div><div class="eco-label">LINK/功值奖励</div></div>
+<div class="eco-card"><div class="eco-value">5%</div><div class="eco-label">固定手续费</div></div>
+<div class="eco-card"><div class="eco-value">210,000</div><div class="eco-label">功值/减半单位</div></div>
+<div class="eco-card"><div class="eco-value">3次</div><div class="eco-label">每日提交上限</div></div>
+<div class="eco-card"><div class="eco-value">1小时</div><div class="eco-label">提交冷却时间</div></div>
+</div>
+</div>
+
+<div class="disclaimer">
+<strong>免责声明：</strong>本项目不构成任何投资建议。加密货币投资具有极高风险，价格波动剧烈，可能完全损失投资本金。参与前请充分了解项目规则和风险。
+</div>
+</div>
+</div>
+
+<!-- SUBMIT PAGE -->
+<div id="page-submit" class="page">
+<div class="submit-wrap">
+<div class="submit-head">
+<h1>提交善举</h1>
+<p>记录您的德行行为，获得功值点数</p>
+</div>
+
+<div class="step-ind">
+<div class="si-item"><div class="si-dot active" id="si1">1</div><div class="si-label">填写描述</div></div>
+<div class="si-line" id="siLine1"></div>
+<div class="si-item"><div class="si-dot" id="si2">2</div><div class="si-label">AI追问</div></div>
+<div class="si-line" id="siLine2"></div>
+<div class="si-item"><div class="si-dot" id="si3">3</div><div class="si-label">获得结果</div></div>
+</div>
+
+<div class="form-card" id="submitCard">
+<div id="step1">
+<h3>描述您的善举</h3>
+<p class="form-hint">请尽可能详细地描述您的具体行为，包括时间、地点、对象和过程。越具体，评估越准确。</p>
+<div class="form-group">
+<label class="form-label">钱包地址</label>
+<input class="form-input" id="submitAddress" placeholder="请先连接钱包，系统将自动填充" readonly>
+</div>
+<div class="form-group">
+<label class="form-label">善举描述 <span style="color:var(--danger)">*</span></label>
+<textarea class="form-input" id="descInput" maxlength="1000" placeholder="例如：2026年3月20日下午，我在上海地铁2号线世纪大道站，看到一位拄着拐杖的老人准备下楼梯，楼梯较陡，我便主动上前扶他下楼梯，并陪同走到站台。整个过程约5分钟。"></textarea>
+<div class="char-count" id="charCount">0 / 1000</div>
+</div>
+<div class="disclaimer" style="margin-top:12px">每日最多提交 <strong>3次</strong>，每次间隔需满 <strong>1小时</strong>。AI将验证内容真实性，请勿提交虚假信息。</div>
+<button class="btn-full" id="step1Btn" onclick="startSubmit()">开始验证 &#8594;</button>
+</div>
+
+<div id="step2" style="display:none">
+<h3>AI追问验证</h3>
+<p class="form-hint">请回答以下追问，帮助我们更准确地评估您的善举。</p>
+<div id="aiQuestionBox"></div>
+<div id="aiAnswerArea"></div>
+</div>
+
+<div id="step3" style="display:none">
+<div id="resultContent"></div>
+</div>
+</div>
+
+<div class="disclaimer">
+<strong>重要提示：</strong>本系统通过AI进行善举评估，评估结果仅供参考。功值点数由合约自动计算，最终以上链数据为准。
+</div>
+</div>
+</div>
+
+<!-- STATS PAGE -->
+<div id="page-stats" class="page">
+<div class="container">
+<div class="stats-header">
+<h1>全网数据分析</h1>
+<p>实时展示灵可生态运行数据，公开透明</p>
+<div class="live-badge"><span class="live-dot"></span>实时数据 · 每30秒自动刷新</div>
+</div>
+
+<div class="stats-grid" id="statsGrid">
+<div class="stat-card top"><div class="stat-label">&#128202; 全网总功值</div><div class="stat-value" id="s-totalMerit">--</div><div class="stat-unit">BU</div><div class="stat-bar"><div class="stat-bar-fill" id="s-totalBar" style="width:0%"></div></div><div class="stat-sub" id="s-totalSub">加载中...</div></div>
+<div class="stat-card"><div class="stat-label">&#127942; 当前奖励标准</div><div class="stat-value sm" id="s-currentReward">--</div><div class="stat-unit">LINK / BU</div></div>
+<div class="stat-card"><div class="stat-label">&#128293; 已减半次数</div><div class="stat-value sm" id="s-halvingCount">--</div><div class="stat-unit">次</div></div>
+<div class="stat-card"><div class="stat-label">&#9200; 距离下次减半</div><div class="stat-value sm" id="s-nextHalving">--</div><div class="stat-unit">BU</div><div class="stat-bar"><div class="stat-bar-fill" id="s-halvingBar" style="width:0%"></div></div></div>
+<div class="stat-card top"><div class="stat-label">&#127922; 抽奖进度</div><div class="stat-value" id="s-lottCurr">--</div><div class="stat-unit">/ 10,000 BU</div><div class="stat-bar"><div class="stat-bar-fill" id="s-lottBar" style="width:0%"></div></div><div class="stat-sub" id="s-lottSub">加载中...</div></div>
+<div class="stat-card"><div class="stat-label">&#128147; 已完成抽奖轮次</div><div class="stat-value sm" id="s-lottRounds">--</div><div class="stat-unit">轮</div></div>
+<div class="stat-card"><div class="stat-label">&#9988; 已发放奖励</div><div class="stat-value sm" id="s-distReward">--</div><div class="stat-unit">LINK</div></div>
+<div class="stat-card"><div class="stat-label">&#128176; 奖励池剩余</div><div class="stat-value sm" id="s-remainReward">--</div><div class="stat-unit">LINK</div><div class="stat-bar"><div class="stat-bar-fill" id="s-rewardBar" style="width:0%"></div></div></div>
+<div class="stat-card"><div class="stat-label">&#128180; 回购总量</div><div class="stat-value sm" id="s-repurchased">--</div><div class="stat-unit">LINK</div></div>
+<div class="stat-card"><div class="stat-label">&#128465; 销毁总量</div><div class="stat-value sm" id="s-burned">--</div><div class="stat-unit">LINK</div></div>
+<div class="stat-card"><div class="stat-label">&#128640; 手续费率</div><div class="stat-value sm">5%</div><div class="stat-unit">固定</div></div>
+<div class="stat-card"><div class="stat-label">&#128190; 合约版本</div><div class="stat-value sm">v3.3</div><div class="stat-unit">功值驱动</div></div>
+</div>
+</div>
+</div>
+
+<!-- WHITEPAPER PAGE -->
+<div id="page-whitepaper" class="page">
+<div class="wp-wrap">
+<div class="wp-toc">
+<h2>&#128196; 白皮书目录</h2>
+<ul class="wp-toc-list">
+<li><a href="#wp-intro">引言：新的分配制度</a></li>
+<li><a href="#wp-labor">第一章：劳动价值理论的黄昏</a></li>
+<li><a href="#wp-merit">第二章：德行价值理论的崛起</a></li>
+<li><a href="#wp-tech">第三章：技术架构</a></li>
+<li><a href="#wp-econ">第四章：经济模型设计</a></li>
+<li><a href="#wp-eco">第五章：生态系统建设</a></li>
+<li><a href="#wp-gov">第六章：治理与去中心化</a></li>
+<li><a href="#wp-roadmap">第七章：路线图</a></li>
+<li><a href="#wp-risk">第八章：风险与应对</a></li>
+<li><a href="#wp-team">第九章：团队与合作伙伴</a></li>
+<li><a href="#wp-legal">第十章：法律与合规声明</a></li>
+</ul>
+</div>
+<div class="wp-content">
+<h2 id="wp-intro">引言：我们为何需要新的分配制度</h2>
+<p>我们正站在人类文明史的转折点上。人工智能技术的指数级发展正在从根本上改变人类社会的运行方式。当AI能够在几乎所有生产领域超越人类劳动效率时，劳动价值理论的基础正在崩塌。</p>
+<p>灵可币提出的<strong>"德行分配制"</strong>(Merit-Based Distribution System, MBDS)是对这一时代挑战的回应。当劳动不再是价值的唯一源泉，<strong>德行</strong>便成为衡量人类贡献的最高标准。</p>
+
+<h2 id="wp-labor">第一章：劳动价值理论的黄昏</h2>
+<p>自工业革命以来，"按劳分配"一直是现代社会的主流分配原则。然而，在AI时代，这一理论面临根本性挑战：</p>
+<ul style="font-size:14px;color:var(--text-secondary);line-height:2;margin-left:20px;margin-bottom:14px">
+<li><strong>就业结构剧变</strong>：大量传统工作岗位被AI替代</li>
+<li><strong>收入分配失衡</strong>：技术垄断加剧贫富差距</li>
+<li><strong>社会价值迷茫</strong>：人类在AI时代的独特价值何在？</li>
+</ul>
+
+<h2 id="wp-merit">第二章：德行价值理论的崛起</h2>
+<p>在AI时代，德行具有独特的经济学价值：</p>
+<ul style="font-size:14px;color:var(--text-secondary);line-height:2;margin-left:20px;margin-bottom:14px">
+<li><strong>稀缺性价值</strong>：AI可以模仿技能，但难以复制真诚的德行</li>
+<li><strong>社会资本价值</strong>：德行构建信任，降低交易成本</li>
+<li><strong>进化导向价值</strong>：德行引导人类向更高级的文明形态进化</li>
+</ul>
+<blockquote>灵可币的使命是构建一套完整的德行分配制度基础设施，让每一份善意都被看见、被计量、被激励。</blockquote>
+
+<h2 id="wp-tech">第三章：技术架构</h2>
+<h3>智能合约架构</h3>
+<table><tr><th>合约名称</th><th>地址</th><th>功能</th></tr>
+<tr><td>LinkToken</td><td>0xf24411...2720</td><td>BEP-20代币，2100万总量</td></tr>
+<tr><td>MeritHalving</td><td>0x37F113...D7271</td><td>功值记录与210K减半</td></tr>
+<tr><td>SubmissionLimiter</td><td>0xAC51ef...2c464</td><td>每日3次+1小时冷却</td></tr>
+<tr><td>FeeRepurchaser</td><td>0x9df6b4...a4651</td><td>5%手续费回购</td></tr>
+<tr><td>MeritLottery</td><td>0x95BD41...99afF</td><td>10K功值自动抽奖</td></tr>
+</table>
+<h3>区块链网络</h3>
+<p>基于<strong>币安智能链（BSC）</strong>，选择BSC因为其高吞吐量（300+ TPS）、低手续费和成熟生态。</p>
+
+<h2 id="wp-econ">第四章：经济模型设计</h2>
+<h3>核心参数</h3>
+<table><tr><th>参数</th><th>数值</th><th>说明</th></tr>
+<tr><td>总供应量</td><td>21,000,000 LINK</td><td>固定，永不增发</td></tr>
+<tr><td>起始奖励</td><td>50 LINK/BU</td><td>每10,000功值</td></tr>
+<tr><td>减半单位</td><td>210,000 功值</td><td>每210K功值减半</td></tr>
+<tr><td>交易手续费</td><td>5%</td><td>固定费率</td></tr>
+<tr><td>每日提交</td><td>3次/天</td><td>防滥用</td></tr>
+<tr><td>冷却时间</td><td>1小时</td><td>提交间隔</td></tr>
+</table>
+
+<h2 id="wp-eco">第五章：生态系统</h2>
+<p>三大核心应用平台：</p>
+<ul style="font-size:14px;color:var(--text-secondary);line-height:2;margin-left:20px;margin-bottom:14px">
+<li><strong>善行天下平台</strong>：德行记录与验证核心平台</li>
+<li><strong>灵可社区</strong>：德行社交与协作平台</li>
+<li><strong>灵可世集</strong>：德行经济交易市场</li>
+</ul>
+
+<h2 id="wp-gov">第六章：治理与去中心化</h2>
+<p>三层治理结构：核心协议层（社区投票）、生态发展层（理事会审批）、日常运营层（团队执行）。</p>
+<p>去中心化路径：<strong>2026</strong>中心化启动 → <strong>2027-2028</strong>渐进去中心化 → <strong>2029+</strong>完全去中心化。</p>
+
+<h2 id="wp-roadmap">第七章：路线图</h2>
+<table><tr><th>阶段</th><th>时间</th><th>目标</th></tr>
+<tr><td>基础建设</td><td>2026 Q1-Q2</td><td>技术完成，MVP上线</td></tr>
+<tr><td>启动增长</td><td>2026 Q3-Q4</td><td>主网上线，10,000用户</td></tr>
+<tr><td>生态扩展</td><td>2027</td><td>100,000用户，开发者生态</td></tr>
+<tr><td>成熟稳定</td><td>2028+</td><td>1,000,000用户，完全去中心化</td></tr>
+</table>
+
+<h2 id="wp-risk">第八章：风险与应对</h2>
+<p>主要风险包括：智能合约漏洞、AI评估偏差、监管政策变化、欺诈与滥用。应对措施包括：专业安全审计、AI+社区双重验证、KYC/AML合规、防欺诈惩罚机制。</p>
+
+<h2 id="wp-team">第九章：团队</h2>
+<p><strong>仙遇</strong> — 项目发起人 & 首席愿景官，10年互联网创业经验，深度研究AI与区块链融合应用，提出"后AI时代德行分配制度"理论框架。</p>
+
+<h2 id="wp-legal">第十章：法律声明</h2>
+<p>灵可币（LINK）是<strong>实用型代币</strong>，不构成证券。项目不承诺任何投资回报，不支付股息或利息，不代表公司股权或债权，购买者应基于使用目的而非投资目的。</p>
+</div>
+</div>
+</div>
+
+<!-- ABOUT PAGE -->
+
+<div id="page-donate" class="page">
+<div class="container">
+<div class="section-title">
+<h2>赞助支持</h2>
+<p>支持 Linknightcoin 项目发展</p>
+</div>
+
+<div class="section-title" style="padding:40px 20px;background:linear-gradient(180deg,rgba(243,156,18,.1) 0%,transparent 100%);border-radius:16px;margin-bottom:30px">
+<h2 style="font-size:32px;font-weight:800;background:linear-gradient(90deg,#f39c12,#e67e22);-webkit-background-clip:text;-webkit-text-fill-color:transparent">₿ 支持我们</h2>
+<p style="color:var(--text-secondary);max-width:600px;margin:16px auto 0">您的每一份支持都将用于推动德行量化系统的发展，让更多善行被看见、被计量、被激励。</p>
+</div>
+
+<div class="about-card" style="margin-bottom:20px">
+<h3 style="color:#f39c12">₿ 接受 BTC 捐赠</h3>
+<div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase">Bitcoin 收币地址</div>
+<div style="background:var(--bg-dark);border-radius:12px;padding:20px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:14px;border:1px solid var(--border)">bc1q9y78rpulpfnrqt47f9dq3s0f03asuw2p43d26c</div>
+<button onclick="copyAddress()" style="padding:10px 24px;background:linear-gradient(135deg,#f39c12,#e67e22);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">📋 复制地址</button>
+</div>
+
+<div class="about-card" style="background:linear-gradient(135deg,rgba(243,156,18,.1),rgba(230,126,34,.1));border:1px solid #f39c12;margin:20px 0">
+<h4 style="font-size:16px;font-weight:700;margin-bottom:12px;color:#f39c12">🌟 赞助权益</h4>
+<ul style="list-style:none;padding:0">
+<li style="padding:8px 0;border-bottom:1px solid rgba(243,156,18,.2)">💎 赞助 <strong>0.2 BTC</strong> 以上，即可加入联合创始人社群</li>
+<li style="padding:8px 0;border-bottom:1px solid rgba(243,156,18,.2)">👥 与核心团队直接沟通，参与项目发展规划</li>
+<li style="padding:8px 0;border-bottom:1px solid rgba(243,156,18,.2)">🎁 优先获得项目最新动态和内测资格</li>
+<li style="padding:8px 0">🏆 在项目里程碑中署名致谢</li>
+</ul>
+</div>
+
+<div class="about-card" style="background:var(--bg-dark);border-radius:12px;padding:20px;margin-top:20px;text-align:center;border:1px solid var(--border)">
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:8px">赞助完成后，请通过以下方式联系我们</p>
+<p>📧 邮箱：<a href="mailto:Linknightcoin@163.com" style="color:#e94560;text-decoration:none;font-weight:600">Linknightcoin@163.com</a></p>
+</div>
+
+<div class="about-card" style="background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(192,57,43,.1));border:1px solid #e74c3c;border-radius:12px;padding:16px;margin-top:20px;text-align:center;font-size:13px;color:var(--text-secondary)">
+⚠️ 赞助前请仔细核对地址，赞助一旦确认将无法撤回。请确保您理解这是一项支持性赞助行为。
+</div>
+</div>
+</div>
+<div id="page-about" class="page">
+<div class="about-wrap">
+<div class="about-head">
+<h1>关于灵可币</h1>
+<p>构建后AI时代德行分配制度的货币基础设施</p>
+</div>
+
+<div class="about-card">
+<h3>&#128640; 项目简介</h3>
+<p>灵可币（Linknightcoin，简称LINK）是一个基于币安智能链（BSC）的创新型加密货币项目，旨在构建"后AI时代德行分配制度"的货币基础设施。</p>
+<p>核心创新包括：善举证明机制（PoB）、功值驱动减半机制、固定手续费回购循环，以及防滥用用户限制。</p>
+</div>
+
+<div class="about-card">
+<h3>&#128104; 核心团队</h3>
+<div class="team-grid">
+<div class="team-item">
+<div class="team-avatar">仙</div>
+<div class="team-name">仙遇</div>
+<div class="team-role">项目发起人 & 首席愿景官</div>
+</div>
+<div class="team-item">
+<div class="team-avatar">技</div>
+<div class="team-name">技术团队</div>
+<div class="team-role">匿名贡献（待公布）</div>
+</div>
+<div class="team-item">
+<div class="team-avatar">区</div>
+<div class="team-name">区块链架构师</div>
+<div class="team-role">前大型互联网公司 · 8年经验</div>
+</div>
+<div class="team-item">
+<div class="team-avatar">&#9733;</div>
+<div class="team-name">顾问委员会</div>
+<div class="team-role">区块链 · AI伦理 · 公益</div>
+</div>
+</div>
+</div>
+
+<div class="about-card">
+<h3>&#128279; 官方链接</h3>
+<div class="contact-links">
+<div class="contact-link"><span>&#127760;</span><span>官网：https://linknightcoin.com</span></div>
+<div class="contact-link"><span>&#128187;</span><span>GitHub：https://github.com/linkcoin-project</span></div>
+<div class="contact-link"><span>&#128269;</span><span>合约地址：0x5e366f6a61d549fFeBE501ef938C0E5775fDA61F</span></div>
+<div class="contact-link"><span>&#128202;</span><span>BSCScan：https://bscscan.com</span></div>
+</div>
+</div>
+
+<div class="about-card">
+<h3>&#128272; 安全声明</h3>
+<p>智能合约已通过 CertiK 安全审计。采用时间锁和多签钱包机制保障资金安全。所有合约代码开源，可在BSCScan公开验证。</p>
+</div>
+</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay hidden" id="walletModal">
+<div class="modal">
+<div class="modal-close" onclick="closeWalletModal()">&#215;</div>
+<h3>连接钱包</h3>
+<p>选择您的加密货币钱包连接到灵可币平台</p>
+<div class="wopt" onclick="connectMetaMask()">
+<div class="wopt-icon">&#128176;</div>
+<div><div class="wopt-name">MetaMask</div><div class="wopt-desc">推荐 · 最流行的Web3钱包</div></div>
+</div>
+<div class="wopt" onclick="toast('info','WalletConnect 功能开发中')">
+<div class="wopt-icon">&#128247;</div>
+<div><div class="wopt-name">WalletConnect</div><div class="wopt-desc">连接移动端钱包</div></div>
+</div>
+</div>
+</div>
+
+<div class="toast hidden" id="toastBox"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+<div class="container">
+<p>&#169; 2026 灵可币 (Linknightcoin) | <a href="https://linknightcoin.com" target="_blank">linknightcoin.com</a> | <a href="https://github.com/linkcoin-project" target="_blank">GitHub</a> | <a href="https://bscscan.com" target="_blank">BSCScan</a></p>
+<p style="margin-top:8px;font-size:12px">后AI时代德行分配基础设施 · 版本 v3.3</p>
+</div>
+</div>
+
+<script src="/ethers.min.js">
+function copyAddress(){navigator.clipboard.writeText("bc1q9y78rpulpfnrqt47f9dq3s0f03asuw2p43d26c").then(()=>{alert("地址已复制！")})};
+</script>
+<script>
+const API = 'http://localhost:3000/api';
+const BSC_SCAN = 'https://bscscan.com';
+const ROUND_SIZE = 10000;
+const BSC_CHAIN_ID = '56';
+const BSC_CHAIN = { chainId: '0x38', chainName: 'BNB Smart Chain', rpcUrls: ['https://bsc-dataseed.binance.org/'], blockExplorerUrls: ['https://bscscan.com'] };
+
+let userAddress = '';
+let sessionId = '';
+let submitStep = 0;
+let currentQuestion = null;
+let statsTimer = null;
+
+// WALLET
+async function checkExistingAccount() {
+    if (window.ethereum) {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+                userAddress = accounts[0];
+                updateWalletUI();
+                const addrEl = document.getElementById('submitAddress');
+                if (addrEl) addrEl.value = userAddress;
+                if (submitStep === 0) {
+                    const btn = document.getElementById('step1Btn');
+                    if (btn) btn.disabled = false;
+                }
+            }
+        } catch(e) {}
+    }
+}
+
+function openWalletModal() {
+    if (userAddress) { disconnectWallet(); return; }
+    document.getElementById('walletModal').classList.remove('hidden');
+}
+function closeWalletModal() {
+    document.getElementById('walletModal').classList.add('hidden');
+}
+async function connectMetaMask() {
+    closeWalletModal();
+    if (!window.ethereum) { toast('error','请安装 MetaMask 钱包'); return; }
+    try {
+        const chainId = await ethereum.request({ method: 'eth_chainId' });
+        if (chainId !== '0x38') {
+            try { await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] }); }
+            catch { await ethereum.request({ method: 'wallet_addEthereumChain', params: [BSC_CHAIN] }); }
+        }
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        userAddress = accounts[0];
+        updateWalletUI();
+        toast('success','钱包连接成功');
+        const addrEl = document.getElementById('submitAddress');
+        if (addrEl) addrEl.value = userAddress;
+        if (submitStep === 0) {
+            const btn = document.getElementById('step1Btn');
+            if (btn) btn.disabled = false;
+        }
+        // Listen for account changes
+        ethereum.on('accountsChanged', (accounts) => {
+            if (accounts.length === 0) {
+                disconnectWallet();
+            } else {
+                userAddress = accounts[0];
+                updateWalletUI();
+                if (addrEl) addrEl.value = userAddress;
+            }
+        });
+    } catch (err) { toast('error','连接失败: ' + err.message); }
+}
+function disconnectWallet() {
+    userAddress = '';
+    updateWalletUI();
+    document.getElementById('submitAddress').value = '';
+    toast('info','钱包已断开');
+}
+function updateWalletUI() {
+    const btn = document.getElementById('walletBtn');
+    const text = document.getElementById('walletText');
+    if (userAddress) {
+        btn.classList.add('connected');
+        text.textContent = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
+    } else {
+        btn.classList.remove('connected');
+        text.textContent = '连接钱包';
+    }
+}
+
+// NAVIGATION
+function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelector('[data-page="'+page+'"]')?.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (page === 'stats') { loadStats(); if (!statsTimer) statsTimer = setInterval(loadStats, 30000); }
+    else if (statsTimer) { clearInterval(statsTimer); statsTimer = null; }
+}
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => switchPage(link.dataset.page));
+});
+
+// SUBMIT
+document.getElementById('descInput')?.addEventListener('input', function() {
+    document.getElementById('charCount').textContent = this.value.length + ' / 1000';
+    document.getElementById('charCount').className = 'char-count' + (this.value.length > 800 ? ' warn' : '');
+});
+document.getElementById('step1Btn').disabled = true;
+
+async function startSubmit() {
+    const desc = document.getElementById('descInput').value.trim();
+    if (!desc || desc.length < 20) { toast('error','请详细描述您的善举（至少20字）'); return; }
+    if (!userAddress) { toast('error','请先连接钱包'); openWalletModal(); return; }
+    const btn = document.getElementById('step1Btn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 正在启动验证...';
+    try {
+        const res = await fetch(API + '/verify/start', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userAddress, description: desc })
+        });
+        const data = await res.json();
+        if (!data.success) { toast('error', data.error || '启动失败'); btn.disabled = false; btn.textContent = '开始验证 →'; return; }
+        sessionId = data.sessionId;
+        currentQuestion = { question: data.question, dimension: data.dimension, reason: data.reason };
+        showStep2();
+    } catch (e) { toast('error','网络错误，请确保后端服务运行中'); btn.disabled = false; btn.textContent = '开始验证 →'; }
+}
+
+function showStep2() {
+    submitStep = 1;
+    setStepInd(2);
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const box = document.getElementById('aiQuestionBox');
+    box.innerHTML = '<div class="ai-box">' +
+        '<div class="ai-top"><span class="ai-badge">AI追问</span><span class="ai-dim">' + (currentQuestion?.dimension || 'general') + '</span></div>' +
+        '<div class="ai-q">' + (currentQuestion?.question || '正在加载...') + '</div>' +
+        '<div class="ai-reason">&#128172; 追问原因：' + (currentQuestion?.reason || '') + '</div></div>';
+    const area = document.getElementById('aiAnswerArea');
+    area.innerHTML = '<textarea id="customAnswer" class="form-input" rows="3" placeholder="请输入您的回答..."></textarea>' +
+        '<button class="btn-full" id="answerBtn" onclick="submitAnswer()" style="margin-top:12px">提交回答 &#8594;</button>' +
+        '<div id="answerLoading" class="loading-mask" style="display:none;padding:20px"><span class="spinner"></span> AI评估中...</div>';
+}
+
+async function submitAnswer() {
+    const answer = document.getElementById('customAnswer')?.value?.trim();
+    if (!answer) { toast('error','请输入您的回答'); return; }
+    document.getElementById('answerBtn').style.display = 'none';
+    document.getElementById('answerLoading').style.display = 'flex';
+    try {
+        const res = await fetch(API + '/verify/answer', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, answer, question: currentQuestion?.question, dimension: currentQuestion?.dimension })
+        });
+        const data = await res.json();
+        document.getElementById('answerLoading').style.display = 'none';
+        if (data.status === 'completed') { showStep3(data); }
+        else if (data.status === 'questioning') {
+            currentQuestion = { question: data.question, dimension: data.dimension, reason: data.reason };
+            renderQuestion();
+        }
+    } catch (e) { document.getElementById('answerLoading').style.display = 'none'; document.getElementById('answerBtn').style.display = 'block'; toast('error','网络错误'); }
+}
+
+function showStep3(data) {
+    submitStep = 2;
+    setStepInd(3);
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'block';
+    const score = data.score;
+    const content = document.getElementById('resultContent');
+    if (score.shouldRecord) {
+        content.innerHTML = '<div class="result-box">' +
+            '<div style="font-size:20px;color:var(--accent);margin-bottom:8px">&#10024; 验证通过！</div>' +
+            '<div class="result-score">' + score.meritPoints + '</div>' +
+            '<div class="result-unit">功值点数</div>' +
+            '<div class="result-break">' +
+            '<div class="break-item"><div class="break-lbl">真实性</div><div class="break-val">' + (score.breakdown?.authenticity || '--') + '</div></div>' +
+            '<div class="break-item"><div class="break-lbl">影响力</div><div class="break-val">' + (score.breakdown?.impact || '--') + '</div></div>' +
+            '<div class="break-item"><div class="break-lbl">投入度</div><div class="break-val">' + (score.breakdown?.effort || '--') + '</div></div>' +
+            '<div class="break-item"><div class="break-lbl">牺牲度</div><div class="break-val">' + (score.breakdown?.sacrifice || '--') + '</div></div></div>' +
+            '<div class="result-text">' + (score.reasoning || '感谢您的善举记录。') + '</div>' +
+            '<div id="onChainArea"><button class="btn-full" id="onChainBtn" onclick="submitToChain(' + score.meritPoints + ')">&#128640; 提交上链</button></div></div>';
+    } else {
+        content.innerHTML = '<div class="result-box">' +
+            '<div style="font-size:20px;color:var(--danger);margin-bottom:8px">&#9888; 验证未通过</div>' +
+            '<div class="result-text fail">' + (score.reasoning || '您的描述未能通过真实性验证。') + '</div>' +
+            '<button class="btn-full ghost" onclick="resetSubmit()">&#8634; 重新提交</button></div>';
+    }
+}
+
+async function submitToChain(meritPoints) {
+    const btn = document.getElementById('onChainBtn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 提交中...';
+    try {
+        const res = await fetch(API + '/record', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userAddress, points: meritPoints })
+        });
+        const data = await res.json();
+        if (data.success) {
+            btn.textContent = '&#10003; 已上链';
+            btn.style.background = 'linear-gradient(135deg,#27ae60,#2ecc71)';
+            toast('success', '成功上链！获得 ' + meritPoints + ' 功值');
+            const txHtml = '<div class="tx-hash">TxHash: ' + data.txHash + '</div><a class="tx-link" href="' + BSC_SCAN + '/tx/' + data.txHash + '" target="_blank">&#128279; 在BSCScan查看</a>';
+            document.getElementById('onChainArea').innerHTML += txHtml;
+        } else { toast('error', data.error || '上链失败'); btn.disabled = false; btn.textContent = '&#128640; 重新提交上链'; }
+    } catch (e) { toast('error', '网络错误'); btn.disabled = false; btn.textContent = '&#128640; 重新提交上链'; }
+}
+
+function resetSubmit() {
+    submitStep = 0; sessionId = ''; currentQuestion = null;
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('descInput').value = '';
+    document.getElementById('charCount').textContent = '0 / 1000';
+    document.getElementById('step1Btn').disabled = false;
+    document.getElementById('step1Btn').textContent = '开始验证 →';
+    setStepInd(1);
+}
+
+function setStepInd(step) {
+    for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById('si' + i);
+        const line = document.getElementById('siLine' + i);
+        if (i < step) { dot.className = 'si-dot done'; if (line) line.className = 'si-line active'; }
+        else if (i === step) { dot.className = 'si-dot active'; if (line) line.className = 'si-line'; }
+        else { dot.className = 'si-dot'; if (line) line.className = 'si-line'; }
+    }
+}
+
+// STATS - backend API proxy
+async function loadStats() {
+    try {
+        const [overviewRes, rewardPoolRes, feeRes] = await Promise.all([
+            fetch(API + '/stats/overview'),
+            fetch(API + '/stats/reward-pool'),
+            fetch(API + '/stats/fee-repurchase').catch(() => null)
+        ]);
+        const overview = overviewRes ? await overviewRes.json() : null;
+        const rewardPool = rewardPoolRes ? await rewardPoolRes.json() : null;
+        const fee = feeRes ? await feeRes.json().catch(() => null) : null;
+
+        if (!overview?.success) return;
+        const o = overview.overview;
+        const total = parseInt(o.totalMerit); // raw merit units
+        const HALVING_UNIT = 210000;
+        const ROUND_SIZE = 10000;
+        const cycleMerit = total % HALVING_UNIT;
+        const halvingPct = parseFloat(o.halvingProgress) || 0;
+        const totalBU = total / ROUND_SIZE;
+
+        // Main stats
+        el('s-totalMerit').textContent = total.toLocaleString() + ' 功值';
+        el('s-totalSub').textContent = 'Halving #' + o.halvingCount + ' · distance to next ' + (HALVING_UNIT - cycleMerit).toLocaleString() + ' merit';
+        el('s-totalBar').style.width = Math.min(halvingPct, 100) + '%';
+        el('s-currentReward').textContent = o.currentRewardPerBU + ' LINK';
+        el('s-halvingCount').textContent = o.halvingCount;
+        el('s-nextHalving').textContent = (HALVING_UNIT - cycleMerit).toLocaleString();
+        el('s-halvingBar').style.width = halvingPct + '%';
+
+        // Lottery (derived from totalMerit)
+        const lottCurr = total % ROUND_SIZE;
+        const lottPct = (lottCurr / ROUND_SIZE * 100).toFixed(1);
+        const completedRounds = Math.floor(totalBU);
+        el('s-lottCurr').textContent = lottCurr.toLocaleString();
+        el('s-lottBar').style.width = lottPct + '%';
+        el('s-lottSub').textContent = (ROUND_SIZE - lottCurr).toLocaleString() + ' merit to next draw';
+        el('s-lottRounds').textContent = completedRounds;
+
+        // Reward pool
+        const poolBal = parseFloat(o.remainingReward) || 0;
+        const distReward = parseFloat(o.distributedReward) || 0;
+        el('s-distReward').textContent = Math.round(distReward).toLocaleString();
+        el('s-remainReward').textContent = Math.round(poolBal).toLocaleString();
+        el('s-rewardBar').style.width = (poolBal / 10500000 * 100).toFixed(2) + '%';
+
+        // Fee repurchase (may fail gracefully)
+        if (fee?.success) {
+            el('s-repurchased').textContent = Math.round(parseFloat(fee.totalRepurchased)).toLocaleString();
+            const burned = fee.totalBurned !== null ? Math.round(parseFloat(fee.totalBurned)).toLocaleString() : '--';
+            el('s-burned').textContent = burned;
+        } else {
+            el('s-repurchased').textContent = '--';
+            el('s-burned').textContent = '--';
+        }
+
+        // Home lottery banner
+        el('homeLottBar').style.width = lottPct + '%';
+        el('homeLottCurr').textContent = lottCurr.toLocaleString();
+        el('homeLottRem').textContent = (ROUND_SIZE - lottCurr).toLocaleString();
+        el('homeLottRounds').textContent = completedRounds;
+    } catch(e) { console.error('loadStats error:', e); }
+}
+
+function el(id) { return document.getElementById(id); }
+
+// TOAST 通知
+function toast(type, message) {
+    const box = document.getElementById('toastBox');
+    if (!box) return;
+    const item = document.createElement('div');
+    item.className = 'toast-item ' + type;
+    item.innerHTML = '<span>' + message + '</span>';
+    box.appendChild(item);
+    box.classList.remove('hidden');
+    setTimeout(() => { item.remove(); if (box.children.length === 0) box.classList.add('hidden'); }, 3000);
+}
+
+// 页面切换
+function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    const target = document.getElementById('page-' + page);
+    if (target) target.style.display = 'block';
+}
+
+// INIT
+checkExistingAccount();
+loadStats();
+
+function copyAddress(){navigator.clipboard.writeText("bc1q9y78rpulpfnrqt47f9dq3s0f03asuw2p43d26c").then(()=>{alert("地址已复制！")})};
+</script>
+</body>
+</html>
